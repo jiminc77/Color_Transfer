@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <img src='./figures/day2sunset.gif' align="right" width=400>
 
 &nbsp;
@@ -126,3 +127,10 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+=======
+# Color_Transfer
+
+Data Engineering Class [AI4005]
+
+- Instagram Color-Transfer
+>>>>>>> 1681bf81ab3e9c251ae91f8c3ccfa2d7e5739904
