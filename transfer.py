@@ -19,7 +19,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
-
+"ddfd"
 import os
 import tqdm
 import argparse
@@ -132,7 +132,8 @@ def get_all_transfer():
 
 
 def run_bulk(config):
-    device = 'cpu' if config.cpu or not torch.cuda.is_available() else 'cuda:0'
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    print(device)
     device = torch.device(device)
 
     transfer_at = set()
