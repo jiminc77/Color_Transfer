@@ -84,6 +84,7 @@ class WCT2:
         return feats, skips
 
     def transfer(self, content, style, content_segment, style_segment, alpha=1):
+        print("transfer!!!!")
         label_set, label_indicator = compute_label_info(content_segment, style_segment)
         content_feat, content_skips = content, {}
         style_feats, style_skips = self.get_all_feature(style)
@@ -186,6 +187,7 @@ def run_bulk(config):
                     with torch.no_grad():
                         img = wct2.transfer(content, style, content_segment, style_segment, alpha=config.alpha)
                     save_image(img.clamp_(0, 1), fname_output, padding=0)
+                    print(fname_output)
 
 
 if __name__ == '__main__':
