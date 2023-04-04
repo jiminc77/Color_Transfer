@@ -1,28 +1,8 @@
-"""
-Copyright (c) 2019 NAVER Corp.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-"""
 
 import os
 import tqdm
 import argparse
+from PIL import Image
 
 import torch
 from torchvision.utils import save_image
@@ -147,6 +127,9 @@ def run_bulk(config):
     # The filenames of the content and style pair should match
     fname_c = os.listdir(config.content)[0]
     fname_s = os.listdir(config.style)[0]
+    print(fname_c)
+    print(fname_s)
+
 
     # if config.content_segment and config.style_segment:
     #     fnames &= set(os.listdir(config.content_segment))
@@ -158,6 +141,12 @@ def run_bulk(config):
         _content_segment = os.path.join(config.content_segment, "black_.png") if config.content_segment else None
         _style_segment = os.path.join(config.style_segment, "black_.png") if config.style_segment else None
         _output = os.path.join(config.output, fname_c)
+        
+        fname_c_img = Image.open(_content).convert('RGB')
+        fname_s_img = Image.open(_style).convert('RGB')
+        fname_c_img.save(_content, 'png')
+        fname_s_img.save(_style, 'png')
+        print(fname_c)
 
         content = open_image(_content, config.image_size).to(device)
         style = open_image(_style, config.image_size).to(device)
