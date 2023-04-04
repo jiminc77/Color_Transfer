@@ -3,6 +3,7 @@ import os
 import tqdm
 import argparse
 from PIL import Image
+from glob import glob
 
 import torch
 from torchvision.utils import save_image
@@ -127,8 +128,6 @@ def run_bulk(config):
     # The filenames of the content and style pair should match
     fname_c = os.listdir(config.content)[0]
     fname_s = os.listdir(config.style)[0]
-    print(fname_c)
-    print(fname_s)
 
 
     # if config.content_segment and config.style_segment:
@@ -146,7 +145,6 @@ def run_bulk(config):
         fname_s_img = Image.open(_style).convert('RGB')
         fname_c_img.save(_content, 'png')
         fname_s_img.save(_style, 'png')
-        print(fname_c)
 
         content = open_image(_content, config.image_size).to(device)
         style = open_image(_style, config.image_size).to(device)
@@ -177,6 +175,21 @@ def run_bulk(config):
     else:
         print('invalid file (is not image) was included')
 
+def DeleteAllFiles(filepath):
+    if os.path.exists(filepath):
+        for file in os.scandir(filepath):
+            os.remove(file.path)
+        return "Remove All File"
+    else:
+        return "Directory Not Found"
+
+def SelectOutputFile():
+    for file in os.scandir("outputs"):
+        if "decoder_encoder_skip" in file.path:
+            continue
+        os.remove(file.path)
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--content', type=str, default='./examples/content')
@@ -195,7 +208,7 @@ if __name__ == '__main__':
     parser.add_argument('--verbose', action='store_true')
     config = parser.parse_args()
 
-    print(config)
+    # print(config)
 
     if not os.path.exists(os.path.join(config.output)):
         os.makedirs(os.path.join(config.output))
@@ -204,3 +217,6 @@ if __name__ == '__main__':
     CUDA_VISIBLE_DEVICES=6 python transfer.py --content ./examples/content --style ./examples/style --content_segment ./examples/content_segment --style_segment ./examples/style_segment/ --output ./outputs/ --verbose --image_size 512 -a
     '''
     run_bulk(config)
+    print(DeleteAllFiles('./examples/content'))
+    print(DeleteAllFiles('./examples/style'))
+    SelectOutputFile()
