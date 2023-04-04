@@ -84,7 +84,6 @@ class WCT2:
         return feats, skips
 
     def transfer(self, content, style, content_segment, style_segment, alpha=1):
-        print("transfer!!!!")
         label_set, label_indicator = compute_label_info(content_segment, style_segment)
         content_feat, content_skips = content, {}
         style_feats, style_skips = self.get_all_feature(style)
@@ -148,9 +147,9 @@ def run_bulk(config):
     # The filenames of the content and style pair should match
     fnames = set(os.listdir(config.content)) & set(os.listdir(config.style))
 
-    if config.content_segment and config.style_segment:
-        fnames &= set(os.listdir(config.content_segment))
-        fnames &= set(os.listdir(config.style_segment))
+    # if config.content_segment and config.style_segment:
+    #     fnames &= set(os.listdir(config.content_segment))
+    #     fnames &= set(os.listdir(config.style_segment))
 
     for fname in tqdm.tqdm(fnames):
         if not is_image_file(fname):
@@ -158,8 +157,8 @@ def run_bulk(config):
             continue
         _content = os.path.join(config.content, fname)
         _style = os.path.join(config.style, fname)
-        _content_segment = os.path.join(config.content_segment, fname) if config.content_segment else None
-        _style_segment = os.path.join(config.style_segment, fname) if config.style_segment else None
+        _content_segment = os.path.join(config.content_segment, "black_.png") if config.content_segment else None
+        _style_segment = os.path.join(config.style_segment, "black_.png") if config.style_segment else None
         _output = os.path.join(config.output, fname)
 
         content = open_image(_content, config.image_size).to(device)
