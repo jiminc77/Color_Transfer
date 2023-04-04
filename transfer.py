@@ -33,15 +33,14 @@ from utils.core import feature_wct
 from utils.io import Timer, open_image, load_segment, compute_label_info
 
 
-IMG_EXTENSIONS = [
+IMG_EXTENSIONS = (
     '.jpg', '.JPG', '.jpeg', '.JPEG',
     '.png', '.PNG',
-]
-
+)
 
 def is_image_file(filename):
-    return any(filename.endswith(extension) for extension in IMG_EXTENSIONS)
-
+    if filename.endswith(IMG_EXTENSIONS):
+        return "True"
 
 class WCT2:
     def __init__(self, model_path='./model_checkpoints', transfer_at=['encoder', 'skip', 'decoder'], option_unpool='cat5', device='cuda:0', verbose=False):
@@ -70,6 +69,7 @@ class WCT2:
     def get_all_feature(self, x):
         skips = {}
         feats = {'encoder': {}, 'decoder': {}}
+        
         for level in [1, 2, 3, 4]:
             x = self.encode(x, skips, level)
             if 'encoder' in self.transfer_at:
@@ -145,27 +145,25 @@ def run_bulk(config):
         transfer_at.add('skip')
 
     # The filenames of the content and style pair should match
-    fnames = set(os.listdir(config.content)) & set(os.listdir(config.style))
+    fname_c = os.listdir(config.content)[0]
+    fname_s = os.listdir(config.style)[0]
 
     # if config.content_segment and config.style_segment:
     #     fnames &= set(os.listdir(config.content_segment))
     #     fnames &= set(os.listdir(config.style_segment))
 
-    for fname in tqdm.tqdm(fnames):
-        if not is_image_file(fname):
-            print('invalid file (is not image), ', fname)
-            continue
-        _content = os.path.join(config.content, fname)
-        _style = os.path.join(config.style, fname)
+    if is_image_file(fname_c) and is_image_file(fname_s):
+        _content = os.path.join(config.content, fname_c)
+        _style = os.path.join(config.style, fname_s)
         _content_segment = os.path.join(config.content_segment, "black_.png") if config.content_segment else None
         _style_segment = os.path.join(config.style_segment, "black_.png") if config.style_segment else None
-        _output = os.path.join(config.output, fname)
+        _output = os.path.join(config.output, fname_c)
 
         content = open_image(_content, config.image_size).to(device)
         style = open_image(_style, config.image_size).to(device)
         content_segment = load_segment(_content_segment, config.image_size)
         style_segment = load_segment(_style_segment, config.image_size)     
-        _, ext = os.path.splitext(fname)
+        _, ext = os.path.splitext(fname_c)
         
         if not config.transfer_all:
             with Timer('Elapsed time in whole WCT: {}', config.verbose):
@@ -181,13 +179,14 @@ def run_bulk(config):
                 with Timer('Elapsed time in whole WCT: {}', config.verbose):
                     postfix = '_'.join(sorted(list(_transfer_at)))
                     fname_output = _output.replace(ext, '_{}_{}.{}'.format(config.option_unpool, postfix, ext))
-                    print('------ transfer:', fname)
+                    print('------ transfer:', fname_c)
                     wct2 = WCT2(transfer_at=_transfer_at, option_unpool=config.option_unpool, device=device, verbose=config.verbose)
                     with torch.no_grad():
                         img = wct2.transfer(content, style, content_segment, style_segment, alpha=config.alpha)
                     save_image(img.clamp_(0, 1), fname_output, padding=0)
                     print(fname_output)
-
+    else:
+        print('invalid file (is not image) was included')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
