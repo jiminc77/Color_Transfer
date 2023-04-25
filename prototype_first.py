@@ -115,6 +115,14 @@ def concat_image(files):  # test folder 에서 이미지를 받아와서 합해�
     # createDirectory('examples/content_segment')
     # shutil.copyfile('black_.png', 'examples/style_segment/black_.png')
     # shutil.copyfile('black_.png', 'examples/content_segment/black_.png')
+
+    with open('test.txt', 'r') as f:
+        a = int(f.readline())
+    with open('test.txt', 'w') as f:
+        f.write(a + 1)
+
+    st.text(a)
+
     st.text(os.listdir('examples'))
     st.text(os.listdir('model_checkpoints'))
     st.text(os.listdir('examples/style_segment'))
