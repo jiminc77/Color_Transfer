@@ -6,6 +6,7 @@ import requests
 import os
 import subprocess
 import shutil
+import time
 
 def insta_crawling(ID, PW):
     cl = Client()
@@ -175,8 +176,8 @@ else:
     st.write("Please upload one or more image files.")
 
 if st.button("Start Transfer!"):        
-    transfer = subprocess.Popen(['python3', 'transfer.py'])
-    transfer.wait()
+    subprocess.run(['python3', 'transfer.py'])
+    time.sleep(2)
     st.image('./outputs/target_cat5_decoder_encoder_skip..jpg')
     # st.write(type(target))
 
