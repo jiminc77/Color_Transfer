@@ -116,6 +116,7 @@ def concat_image(files):  # test folder 에서 이미지를 받아와서 합해�
     shutil.copyfile('black_.png', 'examples/style_segment/black_.png')
     shutil.copyfile('black_.png', 'examples/content_segment/black_.png')
     st.text(os.listdir('examples'))
+    st.text(os.listdir('model_checkpoints'))
     st.text(os.listdir('examples/style_segment'))
 
     concat_single_image.save('./examples/style/concat_image.jpg', 'JPEG')
