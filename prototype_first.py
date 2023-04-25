@@ -17,14 +17,21 @@ def insta_crawling(ID, PW):
     cl.login(ID, PW)
 
     user_id = cl.user_id_from_username("jaeu8021")
+    state_text.text("Feed searching...")
+
     medias = cl.user_medias(int(user_id), 9)
+
     folder = "test-folder"
     createDirectory(folder)
+    state_text.text("Saving Image....")
     for m in medias:
         try:
-            print(photo_download(cl, m.pk, folder))
+            p = photo_download(cl, m.pk, folder)
         except AssertionError:
             pass
+    
+    state_text.text("Crawling finished! " + os.path.abspath(p))
+    st.image(Image.open(os.path.abspath(p)))
 
 
 def photo_download(c, pk, folder):
@@ -109,7 +116,6 @@ def concat_image(files):  # test folder 에서 이미지를 받아와서 합해�
 
     concat_single_image = vconcat_pil(concat_row)
     st.image(concat_single_image)
-    # concat_image.save('concat.png')
     concat_single_image.save('/home/jovyan/Color_Transfer/examples/style/concat_image.jpg', 'JPEG')
 
 
@@ -172,7 +178,7 @@ if uploaded_files or crawled:
     if st.button("Start Analyzing!"):
 
         target.save(
-            '/Users/dongwookim/Data_Engineering/Color_Transfer/examples/content/target.jpg', 'JPEG')
+            '/home/jovyan/Color_Transfer/examples/content/target.jpg', 'JPEG')
         st.write(type(target))
 
 
@@ -188,6 +194,7 @@ if st.button("Crawling Instagram"):
 
 #id = "leessunj"
 #pwd = "Ilsj08282!"
+state_text = st.text("Ready to Crawl.")
 if st.button("Display the Output"):
     subprocess.run(['python3', 'transfer.py'])
-    st.image('/Users/dongwookim/Data_Engineering/Color_Transfer/outputs/target_cat5_decoder_encoder_skip..jpg')
+    st.image('/home/jovyan/Color_Transfer/outputs/target_cat5_decoder_encoder_skip..jpg')
