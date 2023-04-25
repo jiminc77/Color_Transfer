@@ -8,6 +8,7 @@ import subprocess
 import shutil
 import time
 import sys
+from transfer import run
 
 def insta_crawling(ID, PW):
     cl = Client()
@@ -177,7 +178,8 @@ else:
 
 if st.button("Start Transfer!"):
     st.text(os.listdir('outputs'))     
-    subprocess.run([f"{sys.executable}", 'transfer.py'])
+    # subprocess.run([f"{sys.executable}", 'transfer.py'])
+    run()
 
     st.text(os.listdir())
     st.text(os.listdir('outputs'))

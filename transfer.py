@@ -190,7 +190,7 @@ def SelectOutputFile():
         os.remove(file.path)
 
 
-if __name__ == '__main__':
+def run():
     parser = argparse.ArgumentParser()
     parser.add_argument('--content', type=str, default='./examples/content')
     parser.add_argument('--content_segment', type=str, default='./examples/content_segment')
@@ -204,7 +204,7 @@ if __name__ == '__main__':
     parser.add_argument('-d', '--transfer_at_decoder', action='store_true')
     parser.add_argument('-s', '--transfer_at_skip', action='store_true')
     parser.add_argument('-a', '--transfer_all', default = True)
-    parser.add_argument('--cpu', action='store_true')
+    parser.add_argument('--cpu', action='store_true')``
     parser.add_argument('--verbose', action='store_true')
     config = parser.parse_args()
 
@@ -220,3 +220,6 @@ if __name__ == '__main__':
     print(DeleteAllFiles('./examples/content'))
     print(DeleteAllFiles('./examples/style'))
     SelectOutputFile()
+
+if __name__ == '__main__':
+    run()
