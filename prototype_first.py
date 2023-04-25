@@ -109,23 +109,12 @@ def concat_image(files):  # test folder 에서 이미지를 받아와서 합해�
     concat_single_image = vconcat_pil(concat_row)
     st.image(concat_single_image)
 
-    # createDirectory('examples/style')
-    # createDirectory('examples/style_segment')
-    # createDirectory('examples/content')
-    # createDirectory('examples/content_segment')
-    # shutil.copyfile('black_.png', 'examples/style_segment/black_.png')
-    # shutil.copyfile('black_.png', 'examples/content_segment/black_.png')
-
-    with open('test.txt', 'r') as f:
-        a = int(f.readline())
-    with open('test.txt', 'w') as f:
-        f.write(str(a + 1))
-
-    st.text(a)
-
-    st.text(os.listdir('examples'))
-    st.text(os.listdir('model_checkpoints'))
-    st.text(os.listdir('examples/style_segment'))
+    createDirectory('examples/style')
+    createDirectory('examples/style_segment')
+    createDirectory('examples/content')
+    createDirectory('examples/content_segment')
+    shutil.copyfile('black_.png', 'examples/style_segment/black_.png')
+    shutil.copyfile('black_.png', 'examples/content_segment/black_.png')
 
     concat_single_image.save('./examples/style/concat_image.jpg', 'JPEG')
 
@@ -165,10 +154,12 @@ if uploaded_files or crawled:
         single = concat_image(images)
         st.write("Images are processed")
 
-    if st.button("Start Analyzing!"):
+    if st.button("Start Transfer!"):
 
         target.save(
             './examples/content/target.jpg', 'JPEG')
+        subprocess.run(['python3', 'transfer.py'])
+        st.image('./outputs/target_cat5_decoder_encoder_skip..jpg')
         # st.write(type(target))
 
 
@@ -184,8 +175,4 @@ else:
 #     insta_crawling(insta_id, insta_pwd)
 
 #id = "leessunj"
-#pwd = "Ilsj08282!"
-
-if st.button("Display the Output"):
-    subprocess.run(['python3', 'transfer.py'])
-    st.image('./outputs/target_cat5_decoder_encoder_skip..jpg')
+#pwd = "Ilsj08282!"    
