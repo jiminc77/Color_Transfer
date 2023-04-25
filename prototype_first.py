@@ -107,7 +107,7 @@ def concat_image(files):  # test folder 에서 이미지를 받아와서 합해�
 
     concat_single_image = vconcat_pil(concat_row)
     st.image(concat_single_image)
-    st.text(os.listdir())
+    st.text(os.listdir('/examples'))
     concat_single_image.save('./examples/style/concat_image.jpg', 'JPEG')
 
 
