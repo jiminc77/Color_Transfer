@@ -6,12 +6,6 @@ import requests
 import os
 import subprocess
 
-"""
-TODO:
-1.     
-"""
-
-
 def insta_crawling(ID, PW):
     cl = Client()
     cl.login(ID, PW)
@@ -72,9 +66,6 @@ def concat_image(files):  # test folder 에서 이미지를 받아와서 합해�
             return img.crop((m, 0, m+h, h)), h
         return img, h
 
-    # directory = "./img/"
-    # files = os.listdir(directory)
-    # print(files)
     images = []
     msize = 1000
 
@@ -150,27 +141,6 @@ if uploaded_files or crawled:
         image = Image.open(file)
         images.append(image)
 
-    # Calculate the number of rows and columns needed to display the images in a 3x3 grid
-    # num_images = len(images)
-    # num_rows = (num_images + 2) // 3
-    # num_cols = min(num_images, 3)
-
-    # # Set the desired width and height of the images in the grid
-    # image_width = 200
-
-    # Loop through each row and column to display the images in a grid
-    # for i in range(num_rows):
-    #     cols = st.columns(num_cols)
-    #     for j in range(num_cols):
-    #         index = i * 3 + j
-    #         if index < num_images:
-    #             cols[j].image(
-    #                 images[index],
-    #                 caption=f"{uploaded_files[index].name}",
-    #                 width=image_width)
-    # center_button = st.container()
-    # with center_button:
-    #     st.button("Process Images!")
     if st.button("Process Images!"):
         single = concat_image(images)
         st.write("Images are processed")
@@ -186,15 +156,16 @@ else:
     # If no files were uploaded, display a message
     st.write("Please upload one or more image files.")
 
-insta_id = st.text_input("Put your Instagram ID here!")
-insta_pwd = st.text_input('Put your Instagram password here!')
-# Instagram crawling button
-if st.button("Crawling Instagram"):
-    insta_crawling(insta_id, insta_pwd)
+# insta_id = st.text_input("Put your Instagram ID here!")
+# insta_pwd = st.text_input('Put your Instagram password here!')
+# # Instagram crawling button
+# state_text = st.text("Ready to Crawl.")
+# if st.button("Crawling Instagram"):
+#     insta_crawling(insta_id, insta_pwd)
 
 #id = "leessunj"
 #pwd = "Ilsj08282!"
-state_text = st.text("Ready to Crawl.")
+
 if st.button("Display the Output"):
     subprocess.run(['python3', 'transfer.py'])
     st.image('/home/jovyan/Color_Transfer/outputs/target_cat5_decoder_encoder_skip..jpg')
