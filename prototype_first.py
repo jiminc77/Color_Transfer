@@ -108,7 +108,7 @@ def concat_image(files):  # test folder 에서 이미지를 받아와서 합해�
     concat_single_image = vconcat_pil(concat_row)
     st.image(concat_single_image)
     st.text(os.listdir())
-    concat_single_image.save('/examples/style/concat_image.jpg', 'JPEG')
+    concat_single_image.save('./examples/style/concat_image.jpg', 'JPEG')
 
 
 st.title('AI color grader')
@@ -149,7 +149,7 @@ if uploaded_files or crawled:
     if st.button("Start Analyzing!"):
 
         target.save(
-            '/examples/content/target.jpg', 'JPEG')
+            './examples/content/target.jpg', 'JPEG')
         st.write(type(target))
 
 
@@ -169,4 +169,4 @@ else:
 
 if st.button("Display the Output"):
     subprocess.run(['python3', 'transfer.py'])
-    st.image('/outputs/target_cat5_decoder_encoder_skip..jpg')
+    st.image('./outputs/target_cat5_decoder_encoder_skip..jpg')
