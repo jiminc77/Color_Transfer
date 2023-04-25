@@ -119,6 +119,15 @@ def concat_image(files):  # test folder 에서 이미지를 받아와서 합해�
     concat_single_image.save('./examples/style/concat_image.jpg', 'JPEG')
 
 
+def delete_all_files(filepath):
+    if os.path.exists(filepath):
+        for file in os.scandir(filepath):
+            os.remove(file.path)
+        return "Remove All File"
+    else:
+        return "Directory Not Found"
+
+
 st.title('AI color grader')
 st.subheader('Find the filter that best fits your Instagram feed!')
 
@@ -151,13 +160,15 @@ if uploaded_files or crawled:
         images.append(image)
 
     if st.button("Process Images!"):
+        delete_all_files('/examples/content')
+        delete_all_files('/outputs')
+
         single = concat_image(images)
         st.write("Images are processed")
-
-    if st.button("Start Transfer!"):
-
         target.save(
             './examples/content/target.jpg', 'JPEG')
+
+    if st.button("Start Transfer!"):        
         subprocess.run(['python3', 'transfer.py'])
         st.image('./outputs/target_cat5_decoder_encoder_skip..jpg')
         # st.write(type(target))
@@ -175,4 +186,7 @@ else:
 #     insta_crawling(insta_id, insta_pwd)
 
 #id = "leessunj"
-#pwd = "Ilsj08282!"    
+#pwd = "Ilsj08282!"
+
+
+    
