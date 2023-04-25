@@ -175,8 +175,8 @@ else:
     st.write("Please upload one or more image files.")
 
 if st.button("Start Transfer!"):        
-    subprocess.run(['python3', 'transfer.py'])
-    st.text(os.listdir('outputs'))
+    transfer = subprocess.run(['python3', 'transfer.py'])
+    transfer.wait()
     st.image('./outputs/target_cat5_decoder_encoder_skip..jpg')
     # st.write(type(target))
 
