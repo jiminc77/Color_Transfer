@@ -5,6 +5,7 @@ from pathlib import Path
 import requests
 import os
 import subprocess
+import shutil
 
 def insta_crawling(ID, PW):
     cl = Client()
@@ -107,7 +108,16 @@ def concat_image(files):  # test folder 에서 이미지를 받아와서 합해�
 
     concat_single_image = vconcat_pil(concat_row)
     st.image(concat_single_image)
+
     createDirectory('examples/style')
+    createDirectory('examples/style_segment')
+    createDirectory('examples/content')
+    createDirectory('examples/content_segment')
+    shutil.copyfile('black_.png', 'examples/style_segment/black_.png')
+    shutil.copyfile('black_.png', 'examples/content_segment/black_.png')
+    st.text(os.listdir('examples'))
+    st.text(os.listdir('examples/style_segment'))
+
     concat_single_image.save('./examples/style/concat_image.jpg', 'JPEG')
 
 
