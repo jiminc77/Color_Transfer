@@ -160,7 +160,7 @@ if uploaded_files or crawled:
 
         target.save(
             './examples/content/target.jpg', 'JPEG')
-        st.write(type(target))
+        # st.write(type(target))
 
 
 else:
