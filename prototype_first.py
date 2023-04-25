@@ -119,7 +119,7 @@ def concat_image(files):  # test folder 에서 이미지를 받아와서 합해�
     with open('test.txt', 'r') as f:
         a = int(f.readline())
     with open('test.txt', 'w') as f:
-        f.write(a + 1)
+        f.write(str(a + 1))
 
     st.text(a)
 
