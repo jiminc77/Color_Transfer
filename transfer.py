@@ -191,23 +191,6 @@ def SelectOutputFile():
 
 
 def run():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--content', type=str, default='./examples/content')
-    parser.add_argument('--content_segment', type=str, default='./examples/content_segment')
-    parser.add_argument('--style', type=str, default='./examples/style')
-    parser.add_argument('--style_segment', type=str, default='./examples/style_segment')
-    parser.add_argument('--output', type=str, default='./outputs')
-    parser.add_argument('--image_size', type=int, default=512)
-    parser.add_argument('--alpha', type=float, default=1)
-    parser.add_argument('--option_unpool', type=str, default='cat5', choices=['sum', 'cat5'])
-    parser.add_argument('-e', '--transfer_at_encoder', action='store_true')
-    parser.add_argument('-d', '--transfer_at_decoder', action='store_true')
-    parser.add_argument('-s', '--transfer_at_skip', action='store_true')
-    parser.add_argument('-a', '--transfer_all', default = True)
-    parser.add_argument('--cpu', action='store_true')
-    parser.add_argument('--verbose', action='store_true')
-    config = parser.parse_args()
-
     # print(config)
 
     if not os.path.exists(os.path.join(config.output)):
@@ -220,6 +203,25 @@ def run():
     print(DeleteAllFiles('./examples/content'))
     print(DeleteAllFiles('./examples/style'))
     SelectOutputFile()
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--content', type=str, default='./examples/content')
+parser.add_argument('--content_segment', type=str, default='./examples/content_segment')
+parser.add_argument('--style', type=str, default='./examples/style')
+parser.add_argument('--style_segment', type=str, default='./examples/style_segment')
+parser.add_argument('--output', type=str, default='./outputs')
+parser.add_argument('--image_size', type=int, default=512)
+parser.add_argument('--alpha', type=float, default=1)
+parser.add_argument('--option_unpool', type=str, default='cat5', choices=['sum', 'cat5'])
+parser.add_argument('-e', '--transfer_at_encoder', action='store_true')
+parser.add_argument('-d', '--transfer_at_decoder', action='store_true')
+parser.add_argument('-s', '--transfer_at_skip', action='store_true')
+parser.add_argument('-a', '--transfer_all', default = True)
+parser.add_argument('--cpu', action='store_true')
+parser.add_argument('--verbose', action='store_true')
+config = parser.parse_args()
+
 
 if __name__ == '__main__':
     run()
