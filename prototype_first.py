@@ -177,7 +177,7 @@ else:
 
 if st.button("Start Transfer!"):        
     subprocess.run(['python3', 'transfer.py'])
-    time.sleep(5)
+    time.sleep(10)
     st.image('./outputs/target_cat5_decoder_encoder_skip..jpg')
     # st.write(type(target))
 
