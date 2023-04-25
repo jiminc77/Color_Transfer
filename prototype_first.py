@@ -160,6 +160,7 @@ if uploaded_files or crawled:
         images.append(image)
 
     if st.button("Process Images!"):
+        os.listdir('/outputs')
         delete_all_files('/examples/content')
         delete_all_files('/outputs')
 
