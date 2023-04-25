@@ -162,7 +162,6 @@ if uploaded_files or crawled:
         images.append(image)
 
     if st.button("Process Images!"):
-        os.listdir('outputs')
         delete_all_files('examples/content')
         delete_all_files('outputs')
 
@@ -176,9 +175,11 @@ else:
     # If no files were uploaded, display a message
     st.write("Please upload one or more image files.")
 
-if st.button("Start Transfer!"):        
+if st.button("Start Transfer!"):
+    st.text(os.listdir('outputs'))     
     subprocess.run([f"{sys.executable}", 'transfer.py'])
 
+    st.text(os.listdir())
     st.text(os.listdir('outputs'))
     st.image('./outputs/target_cat5_decoder_encoder_skip..jpg')
     # st.write(type(target))
