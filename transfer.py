@@ -204,7 +204,7 @@ def run():
     parser.add_argument('-d', '--transfer_at_decoder', action='store_true')
     parser.add_argument('-s', '--transfer_at_skip', action='store_true')
     parser.add_argument('-a', '--transfer_all', default = True)
-    parser.add_argument('--cpu', action='store_true')``
+    parser.add_argument('--cpu', action='store_true')
     parser.add_argument('--verbose', action='store_true')
     config = parser.parse_args()
 
