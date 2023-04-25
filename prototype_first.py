@@ -152,7 +152,6 @@ if target_file:
     st.image(target)
 
 crawled = []
-processed = False
 # Check if the user has uploaded any files
 if uploaded_files or crawled:
     # Create an empty list to store the images
@@ -171,19 +170,16 @@ if uploaded_files or crawled:
         st.write("Images are processed")
         target.save(
             './examples/content/target.jpg', 'JPEG')
-        processed = True
-
 
 else:
     # If no files were uploaded, display a message
     st.write("Please upload one or more image files.")
 
-if processed:
-    if st.button("Start Transfer!"):
-        # subprocess.run([f"{sys.executable}", 'transfer.py'])
-        run()
+if st.button("Start Transfer!"):
+    # subprocess.run([f"{sys.executable}", 'transfer.py'])
+    run()
 
-        # st.write(type(target))
+    # st.write(type(target))
 
 # insta_id = st.text_input("Put your Instagram ID here!")
 # insta_pwd = st.text_input('Put your Instagram password here!')
