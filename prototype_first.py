@@ -175,10 +175,11 @@ else:
     # If no files were uploaded, display a message
     st.write("Please upload one or more image files.")
 
-if st.button("Start Transfer!"):
+if st.button("Start Transfer!"):   
     # subprocess.run([f"{sys.executable}", 'transfer.py'])
     run()
 
+    st.image('./outputs/target_cat5_decoder_encoder_skip..jpg')
     # st.write(type(target))
 
 # insta_id = st.text_input("Put your Instagram ID here!")
