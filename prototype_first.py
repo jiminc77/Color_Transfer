@@ -16,8 +16,6 @@ def display_available_memory():
     available_memory = mem_info.available / (1024 ** 2)  # Convert to MB
     st.write(f"Available memory: {available_memory:.2f} MB")
 
-display_available_memory()
-
 def insta_crawling(ID, PW):
     cl = Client()
     cl.login(ID, PW)
@@ -195,7 +193,8 @@ if st.button("Start Transfer!"):
         st.write("Exist!")
     else:
         st.write("None!")
-    
+
+    display_available_memory()
     memory_usage("Start")
 
     # for file_name in os.listdir(directory):
@@ -208,6 +207,8 @@ if st.button("Start Transfer!"):
     run()
 
     memory_usage("#2")
+    display_available_memory()
+
 
     st.image('./outputs/target_cat5_decoder_encoder_skip..jpg')
     # st.write(type(target))
