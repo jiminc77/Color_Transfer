@@ -129,7 +129,6 @@ def run_bulk(config):
     fname_c = os.listdir(config.content)[0]
     fname_s = os.listdir(config.style)[0]
 
-
     # if config.content_segment and config.style_segment:
     #     fnames &= set(os.listdir(config.content_segment))
     #     fnames &= set(os.listdir(config.style_segment))

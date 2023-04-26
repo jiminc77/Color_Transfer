@@ -192,5 +192,4 @@ if st.button("Start Transfer!"):
 #id = "leessunj"
 #pwd = "Ilsj08282!"
 
-
-    
+# 서버가 종료되지 않았다면, netstat -lnp | grep [포트번호] 후, kill -9 [process_id]
