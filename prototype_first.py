@@ -177,6 +177,19 @@ else:
 
 if st.button("Start Transfer!"):   
     # subprocess.run([f"{sys.executable}", 'transfer.py'])
+    directory = './outputs'
+
+    if os.path.isfile(directory):
+        st.write("Exist!")
+    else:
+        st.write("None!")
+    
+    # for file_name in os.listdir(directory):
+    #     file_path = os.path.join(directory, file_name)
+    #     if os.path.exists(file_path):
+    #         st.write('Exist!')
+    #     else:
+    #         st.write('Non..')
     run()
 
     st.image('./outputs/target_cat5_decoder_encoder_skip..jpg')
