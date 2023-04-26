@@ -8,7 +8,15 @@ import subprocess
 import shutil
 import time
 import sys
+import psutil
 from transfer import run
+
+def display_available_memory():
+    mem_info = psutil.virtual_memory()
+    available_memory = mem_info.available / (1024 ** 2)  # Convert to MB
+    st.write(f"Available memory: {available_memory:.2f} MB")
+
+display_available_memory()
 
 def insta_crawling(ID, PW):
     cl = Client()
@@ -130,6 +138,10 @@ def delete_all_files(filepath):
     else:
         return "Directory Not Found"
 
+def memory_usage(message):
+    p = psutil.Process()
+    rss = p.memory_info().rss/2**20
+    st.write(f"[{message}] memory usage: {rss:10.5f} MB")
 
 st.title('AI color grader')
 st.subheader('Find the filter that best fits your Instagram feed!')
@@ -168,8 +180,7 @@ if uploaded_files or crawled:
 
         single = concat_image(images)
         st.write("Images are processed")
-        target.save(
-            './examples/content/target.jpg', 'JPEG')
+        target.save('./examples/content/target.jpg', 'JPEG')
 
 else:
     # If no files were uploaded, display a message
@@ -177,13 +188,16 @@ else:
 
 if st.button("Start Transfer!"):   
     # subprocess.run([f"{sys.executable}", 'transfer.py'])
-    directory = './outputs'
 
+    # Check if there are any files left in the outputs folder
+    directory = './outputs'
     if os.path.isfile(directory):
         st.write("Exist!")
     else:
         st.write("None!")
     
+    memory_usage("Start")
+
     # for file_name in os.listdir(directory):
     #     file_path = os.path.join(directory, file_name)
     #     if os.path.exists(file_path):
@@ -192,6 +206,8 @@ if st.button("Start Transfer!"):
     #         st.write('Non..')
 
     run()
+
+    memory_usage("#2")
 
     st.image('./outputs/target_cat5_decoder_encoder_skip..jpg')
     # st.write(type(target))
@@ -207,3 +223,4 @@ if st.button("Start Transfer!"):
 #pwd = "Ilsj08282!"
 
 # 서버가 종료되지 않았다면, netstat -lnp | grep [포트번호] 후, kill -9 [process_id]
+

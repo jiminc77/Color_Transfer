@@ -2,6 +2,7 @@
 import os
 import tqdm
 import argparse
+import psutil
 from PIL import Image
 from glob import glob
 
@@ -198,10 +199,18 @@ def run():
     '''
     CUDA_VISIBLE_DEVICES=6 python transfer.py --content ./examples/content --style ./examples/style --content_segment ./examples/content_segment --style_segment ./examples/style_segment/ --output ./outputs/ --verbose --image_size 512 -a
     '''
+    memory_usage("#1")
     run_bulk(config)
+    memory_usage("#2")
+
     print(DeleteAllFiles('./examples/content'))
     print(DeleteAllFiles('./examples/style'))
     SelectOutputFile()
+
+def memory_usage(message):
+    p = psutil.Process()
+    rss = p.memory_info().rss/2**20
+    print(f"[{message}] memory usage: {rss:10.5f} MB")
 
 
 parser = argparse.ArgumentParser()
