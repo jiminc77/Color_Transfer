@@ -206,7 +206,7 @@ if st.button("Start Transfer!"):
 
     run()
 
-    memory_usage("#2")
+    memory_usage("End")
     display_available_memory()
 
 
