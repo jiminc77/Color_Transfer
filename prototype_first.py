@@ -15,6 +15,8 @@ def display_available_memory():
     available_memory = mem_info.available / (1024 ** 2)  # Convert to MB
     st.write(f"Available memory: {available_memory:.2f} MB")
 
+#
+
 def insta_crawling(ID, PW):
     cl = Client()
     cl.login(ID, PW)
