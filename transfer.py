@@ -2,7 +2,7 @@
 import os
 import tqdm
 import argparse
-import psutil
+# import psutil
 from PIL import Image
 from glob import glob
 
