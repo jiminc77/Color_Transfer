@@ -10,12 +10,28 @@ import time
 import sys
 from transfer import run
 
+streamlit_style = """
+			<style>
+			@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+			html, body, [class*="css"]  {
+			font-family: 'Poppins', sans-serif;
+			}
+            .custom-style {
+                margin-top: 115px;  # 이미지 사이의 간격 조절
+            }
+            .custom-title {
+                font-weight: 900;  # 텍스트를 굵게
+            }
+            </style>
+			"""
+
+st.markdown(streamlit_style, unsafe_allow_html=True)
+
 def display_available_memory():
     mem_info = psutil.virtual_memory()
     available_memory = mem_info.available / (1024 ** 2)  # Convert to MB
     st.write(f"Available memory: {available_memory:.2f} MB")
-
-#
 
 def insta_crawling(ID, PW):
     cl = Client()
@@ -119,7 +135,7 @@ def concat_image(files, progress_callback):  # test folder 에서 이미지를 �
         progress_callback(progress)
 
     concat_single_image = vconcat_pil(concat_row)
-    st.image(concat_single_image)
+    # st.image(concat_single_image)
 
     createDirectory('examples/style')
     createDirectory('examples/style_segment')
@@ -153,30 +169,38 @@ def memory_usage(message):
     rss = p.memory_info().rss/2**20
     st.write(f"[{message}] memory usage: {rss:10.5f} MB")
 
-st.title('AI color grader')
+st.image("intersection.png", width = 100)
+st.markdown('<h1 class="custom-title">AI Color Grader</h1>', unsafe_allow_html=True)
 st.subheader('Find the filter that best fits your Instagram feed!')
 
 with st.container():
     col1, col2 = st.columns(2)
+
     with col1:
+        target_file = st.file_uploader(label="Choose an image to apply color correction",
+                                       type=['jpeg', 'png', 'jpg', 'heic'],
+                                       label_visibility='visible',
+                                       accept_multiple_files=False)
+            
+
+    with col2:
         uploaded_files = st.file_uploader(label="Choose image(s) for AI to analyze",
                                           type=['jpeg', 'png', 'jpg', 'heic'],
                                           label_visibility='visible',
                                           accept_multiple_files=True)
 
-    with col2:
-        target_file = st.file_uploader(label="Choose an image to apply color correction",
-                                       type=['jpeg', 'png', 'jpg', 'heic'],
-                                       label_visibility='visible',
-                                       accept_multiple_files=False)
+    
 if target_file:
     target = Image.open(target_file)
-    st.image(target)
+    with col1:
+        st.markdown('<div class="custom-style"></div>', unsafe_allow_html=True)
+        st.image(target)
 
 crawled = []
 # Check if the user has uploaded any files
 if uploaded_files or crawled:
     # Create an empty list to store the images
+
     images = []
 
     # Loop through each uploaded file and append the opened image to the list
@@ -190,41 +214,28 @@ if uploaded_files or crawled:
 
         bar = st.progress(0)
         single = concat_image(images, update_progress_bar)
-        # latest_iteration = st.empty()
-        
-        # for i in range(100):
-        #     # Update the progress bar with each iteration.
-        #     latest_iteration.text(f'Iteration {i+1}')
-        #     bar.progress(i + 1)
-        #     time.sleep(0.01)
-        st.write("Processing...")
         target.save('./examples/content/target.jpg', 'JPEG')
+        concat = Image.open('./examples/style/concat_image.jpg')
+        col2.image(concat)
 
-else:
+
+# else:
     # If no files were uploaded, display a message
-    st.write("Please upload one or more image files")
+    # st.write("Please upload one or more image files")
 
 if st.button("Start Transfer"):   
-    # subprocess.run([f"{sys.executable}", 'transfer.py'])
 
-    # Check if there are any files left in the outputs folder
     directory = './outputs'
-
-
-    # for file_name in os.listdir(directory):
-    #     file_path = os.path.join(directory, file_name)
-    #     if os.path.exists(file_path):
-    #         st.write('Exist!')
-    #     else:
-    #         st.write('Non..')
 
     bar = st.progress(0)
     run(update_progress_bar)
     
 
-
-    st.image('./outputs/target_cat5_decoder_encoder_skip..jpg')
-    # st.write(type(target))
+    concat = Image.open('./examples/style/concat_image.jpg')
+    col2.image(concat)
+    with st.container():
+        st.image('./outputs/target_cat5_decoder_encoder_skip..jpg', use_column_width=True)
+    
 
 # insta_id = st.text_input("Put your Instagram ID here!")
 # insta_pwd = st.text_input('Put your Instagram password here!')
