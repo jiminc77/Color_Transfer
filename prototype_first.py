@@ -8,7 +8,6 @@ import subprocess
 import shutil
 import time
 import sys
-import psutil
 from transfer import run
 
 def display_available_memory():
