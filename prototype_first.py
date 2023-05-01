@@ -63,7 +63,7 @@ def createDirectory(directory):
         print("Error: Failed to create the directory.")
 
 
-def concat_image(files):  # test folder 에서 이미지를 받아와서 합해야됨
+def concat_image(files, progress_callback):  # test folder 에서 이미지를 받아와서 합해야됨
 
     def resize_squared_img(img):
         h = img.height
@@ -114,6 +114,8 @@ def concat_image(files):  # test folder 에서 이미지를 받아와서 합해�
             break
         row = hconcat_resize_pil(images[i:i+3])
         concat_row.append(row)
+        progress = (i + 3) / n
+        progress_callback(progress)
 
     concat_single_image = vconcat_pil(concat_row)
     st.image(concat_single_image)
@@ -127,6 +129,15 @@ def concat_image(files):  # test folder 에서 이미지를 받아와서 합해�
 
     concat_single_image.save('./examples/style/concat_image.jpg', 'JPEG')
 
+def update_progress_bar(progress):
+    
+    if progress < 1:
+        bar.progress(progress)
+    else:
+        bar.progress(progress)
+        time.sleep(1)
+        bar.empty()
+        
 
 def delete_all_files(filepath):
     if os.path.exists(filepath):
@@ -176,7 +187,15 @@ if uploaded_files or crawled:
         delete_all_files('examples/content')
         delete_all_files('outputs')
 
-        single = concat_image(images)
+        bar = st.progress(0)
+        single = concat_image(images, update_progress_bar)
+        # latest_iteration = st.empty()
+        
+        # for i in range(100):
+        #     # Update the progress bar with each iteration.
+        #     latest_iteration.text(f'Iteration {i+1}')
+        #     bar.progress(i + 1)
+        #     time.sleep(0.01)
         st.write("Images are processed")
         target.save('./examples/content/target.jpg', 'JPEG')
 
@@ -195,7 +214,6 @@ if st.button("Start Transfer!"):
         st.write("None!")
 
     display_available_memory()
-    memory_usage("Start")
 
     # for file_name in os.listdir(directory):
     #     file_path = os.path.join(directory, file_name)
@@ -206,7 +224,6 @@ if st.button("Start Transfer!"):
 
     run()
 
-    memory_usage("End")
     display_available_memory()
 
 
