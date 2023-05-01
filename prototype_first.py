@@ -131,7 +131,7 @@ def concat_image(files, progress_callback):  # test folder 에서 이미지를 �
 
 def update_progress_bar(progress):
     
-    if progress < 1:
+    if progress < 0.99:
         bar.progress(progress)
     else:
         bar.progress(progress)
@@ -158,13 +158,13 @@ st.subheader('Find the filter that best fits your Instagram feed!')
 with st.container():
     col1, col2 = st.columns(2)
     with col1:
-        uploaded_files = st.file_uploader(label="Choose image(s) for AI to analyze!",
+        uploaded_files = st.file_uploader(label="Choose image(s) for AI to analyze",
                                           type=['jpeg', 'png', 'jpg', 'heic'],
                                           label_visibility='visible',
                                           accept_multiple_files=True)
 
     with col2:
-        target_file = st.file_uploader(label="Choose an image to apply color correction!",
+        target_file = st.file_uploader(label="Choose an image to apply color correction",
                                        type=['jpeg', 'png', 'jpg', 'heic'],
                                        label_visibility='visible',
                                        accept_multiple_files=False)
@@ -183,7 +183,7 @@ if uploaded_files or crawled:
         image = Image.open(file)
         images.append(image)
 
-    if st.button("Process Images!"):
+    if st.button("Process Images"):
         delete_all_files('examples/content')
         delete_all_files('outputs')
 
@@ -196,24 +196,19 @@ if uploaded_files or crawled:
         #     latest_iteration.text(f'Iteration {i+1}')
         #     bar.progress(i + 1)
         #     time.sleep(0.01)
-        st.write("Images are processed")
+        st.write("Processing...")
         target.save('./examples/content/target.jpg', 'JPEG')
 
 else:
     # If no files were uploaded, display a message
-    st.write("Please upload one or more image files.")
+    st.write("Please upload one or more image files")
 
-if st.button("Start Transfer!"):   
+if st.button("Start Transfer"):   
     # subprocess.run([f"{sys.executable}", 'transfer.py'])
 
     # Check if there are any files left in the outputs folder
     directory = './outputs'
-    if os.path.isfile(directory):
-        st.write("Exist!")
-    else:
-        st.write("None!")
 
-    display_available_memory()
 
     # for file_name in os.listdir(directory):
     #     file_path = os.path.join(directory, file_name)
@@ -222,9 +217,9 @@ if st.button("Start Transfer!"):
     #     else:
     #         st.write('Non..')
 
-    run()
-
-    display_available_memory()
+    bar = st.progress(0)
+    run(update_progress_bar)
+    
 
 
     st.image('./outputs/target_cat5_decoder_encoder_skip..jpg')

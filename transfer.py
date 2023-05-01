@@ -113,7 +113,8 @@ def get_all_transfer():
     return ret
 
 
-def run_bulk(config):
+def run_bulk(config, progress_callback = None):
+    i = 0
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print(device)
     device = torch.device(device)
@@ -167,6 +168,10 @@ def run_bulk(config):
                 with torch.no_grad():
                     img = wct2.transfer(content, style, content_segment, style_segment, alpha=config.alpha)
                 save_image(img.clamp_(0, 1), fname_output, padding=0)
+                i = i + 1
+                progress = (i+1) / 7
+                print(progress)
+                progress_callback(progress)
         else:
             for _transfer_at in get_all_transfer():
                 with Timer('Elapsed time in whole WCT: {}', config.verbose):
@@ -177,9 +182,18 @@ def run_bulk(config):
                     with torch.no_grad():
                         img = wct2.transfer(content, style, content_segment, style_segment, alpha=config.alpha)
                     save_image(img.clamp_(0, 1), fname_output, padding=0)
+                    i = i + 1
+                    progress = (i+1) / 8
+                    progress_callback(progress)
                     print(fname_output)
+                    print(progress)
+
     else:
         print('invalid file (is not image) was included')
+    
+    return i
+
+
 
 def DeleteAllFiles(filepath):
     if os.path.exists(filepath):
@@ -196,16 +210,15 @@ def SelectOutputFile():
         os.remove(file.path)
 
 
-def run():
-    # print(config)
-
+def run(progress_callback = None):
+    
     if not os.path.exists(os.path.join(config.output)):
         os.makedirs(os.path.join(config.output))
 
     '''
     CUDA_VISIBLE_DEVICES=6 python transfer.py --content ./examples/content --style ./examples/style --content_segment ./examples/content_segment --style_segment ./examples/style_segment/ --output ./outputs/ --verbose --image_size 512 -a
     '''
-    run_bulk(config)
+    run_bulk(config, progress_callback)
 
     print(DeleteAllFiles('./examples/content'))
     # print(DeleteAllFiles('./examples/style'))
