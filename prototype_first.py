@@ -197,6 +197,10 @@ if target_file:
         st.image(target)
 
 crawled = []
+
+if 'process_idx' not in st.session_state:
+    st.session_state.process_idx = 1
+
 # Check if the user has uploaded any files
 if uploaded_files or crawled:
     # Create an empty list to store the images
@@ -207,36 +211,32 @@ if uploaded_files or crawled:
     for file in uploaded_files:
         image = Image.open(file)
         images.append(image)
-
-    if st.button("Process Images"):
-        delete_all_files('examples/content')
-        delete_all_files('outputs')
-
-        bar = st.progress(0)
-        single = concat_image(images, update_progress_bar)
-        target.save('./examples/content/target.jpg', 'JPEG')
-        concat = Image.open('./examples/style/concat_image.jpg')
-        col2.image(concat)
-
-
-# else:
-    # If no files were uploaded, display a message
-    # st.write("Please upload one or more image files")
-
-if st.button("Start Transfer"):   
-
-    directory = './outputs'
-
-    bar = st.progress(0)
-    run(update_progress_bar)
     
+    if st.session_state.process_idx == 1:
+        if st.button("Process Images"):
+            delete_all_files('examples/content')
+            delete_all_files('outputs')
 
-    concat = Image.open('./examples/style/concat_image.jpg')
-    col2.image(concat)
-    with st.container():
-        show_image = st.image('./outputs/target_cat5_decoder_encoder_skip..jpg', use_column_width=True)
+            bar = st.progress(0)
+            single = concat_image(images, update_progress_bar)
+            target.save('./examples/content/target.jpg', 'JPEG')
+            concat = Image.open('./examples/style/concat_image.jpg')
+            col2.image(concat)
+            st.session_state.process_idx = 2
 
-    if show_image:
+    if st.session_state.process_idx == 2:
+        if st.button("Start Transfer"):   
+            directory = './outputs'
+            bar = st.progress(0)
+            run(update_progress_bar)
+            concat = Image.open('./examples/style/concat_image.jpg')
+            col2.image(concat)
+            with st.container():
+                st.image('./outputs/target_cat5_decoder_encoder_skip..jpg', use_column_width=True)
+                st.session_state.process_idx = 3
+
+
+    if st.session_state.process_idx == 3:
         with open('./outputs/target_cat5_decoder_encoder_skip..jpg', 'rb') as file:
             button = st.download_button(label = 'Download', data = file, file_name = "Color_Grading.jpg", mime = 'image/jpg')
 
