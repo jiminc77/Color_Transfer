@@ -169,6 +169,10 @@ def memory_usage(message):
     rss = p.memory_info().rss/2**20
     st.write(f"[{message}] memory usage: {rss:10.5f} MB")
 
+def is_square(image):
+    width, height = image.size
+    return width == height
+
 st.image("intersection.png", width = 100)
 st.markdown('<h1 class="custom-title">AI Color Grader</h1>', unsafe_allow_html=True)
 st.subheader('Find the filter that best fits your Instagram feed!')
@@ -181,7 +185,13 @@ with st.container():
                                        type=['jpeg', 'png', 'jpg', 'heic'],
                                        label_visibility='visible',
                                        accept_multiple_files=False)
-            
+        if target_file:
+            target_image = Image.open(target_file)
+        
+            if not is_square(target_image):
+                st.error("Please upload a square image.")
+            else:
+                pass
 
     with col2:
         uploaded_files = st.file_uploader(label="Choose image(s) for AI to analyze",
