@@ -225,7 +225,7 @@ parser.add_argument('--content_segment', type=str, default='./examples/content_s
 parser.add_argument('--style', type=str, default='./examples/style')
 parser.add_argument('--style_segment', type=str, default='./examples/style_segment')
 parser.add_argument('--output', type=str, default='./outputs')
-parser.add_argument('--image_size', type=int, default=512)
+parser.add_argument('--image_size', type=int, default=1024)
 parser.add_argument('--alpha', type=float, default=1)
 parser.add_argument('--option_unpool', type=str, default='cat5', choices=['sum', 'cat5'])
 parser.add_argument('-e', '--transfer_at_encoder', action='store_true')
