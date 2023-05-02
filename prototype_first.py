@@ -234,7 +234,12 @@ if st.button("Start Transfer"):
     concat = Image.open('./examples/style/concat_image.jpg')
     col2.image(concat)
     with st.container():
-        st.image('./outputs/target_cat5_decoder_encoder_skip..jpg', use_column_width=True)
+        show_image = st.image('./outputs/target_cat5_decoder_encoder_skip..jpg', use_column_width=True)
+
+    if show_image:
+        with open('./outputs/target_cat5_decoder_encoder_skip..jpg', 'rb') as file:
+            button = st.download_button(label = 'Download', data = file, file_name = "Color_Grading.jpg", mime = 'image/jpg')
+
     
 
 # insta_id = st.text_input("Put your Instagram ID here!")
