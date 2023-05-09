@@ -215,7 +215,7 @@ def run(progress_callback = None):
     run_bulk(config, progress_callback)
 
     print(DeleteAllFiles('./examples/content'))
-    # print(DeleteAllFiles('./examples/style'))
+    print(DeleteAllFiles('./examples/style'))
     SelectOutputFile()
 
 
