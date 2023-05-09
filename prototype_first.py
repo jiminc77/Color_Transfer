@@ -115,7 +115,7 @@ def concat_image(files, progress_callback):  # test folder 에서 이미지를 �
         images.append(img)
 
     def hconcat_resize_pil(im_list):
-        msize = 1000
+        msize = 200
         im_list_resize = [im.resize((msize, msize))
                           for im in im_list]
         total_width = msize*len(im_list)
@@ -127,7 +127,7 @@ def concat_image(files, progress_callback):  # test folder 에서 이미지를 �
         return dst
 
     def vconcat_pil(im_list):
-        msize = 1000
+        msize = 200
         total_height = msize*len(im_list)
         dst = Image.new('RGB', (msize*3, total_height))
         pos_y = 0
