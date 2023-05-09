@@ -137,16 +137,16 @@ def run_bulk(config, progress_callback = None):
         _style_segment = os.path.join(config.style_segment, "black_.png") if config.style_segment else None
         _output = os.path.join(config.output, fname_c)
         
-        with Image.open(_style) as img_style:
-            width, height = img_style.size
-            # fname_s_img = img_style.resize((width//6, height//6), Image.ANTIALIAS)
-            fname_s_img.convert('RGB')
-            fname_s_img.save(_style, 'png')
+        # with Image.open(_style) as img_style:
+        #     width, height = img_style.size
+        #     # fname_s_img = img_style.resize((width//6, height//6), Image.ANTIALIAS)
+        #     fname_s_img.convert('RGB')
+        #     fname_s_img.save(_style, 'png')
         fname_c_img = Image.open(_content).convert('RGB')
-        # fname_s_img = Image.open(_style).convert('RGB')
+        fname_s_img = Image.open(_style).convert('RGB')
 
         fname_c_img.save(_content, 'png')
-        # fname_s_img.save(_style, 'png')
+        fname_s_img.save(_style, 'png')
 
         content = open_image(_content, config.image_size).to(device)
         style = open_image(_style, config.image_size).to(device)
