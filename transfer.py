@@ -139,7 +139,7 @@ def run_bulk(config, progress_callback = None):
         
         with Image.open(_style) as img_style:
             width, height = img_style.size
-            fname_s_img = img_style.resize((width//6, height//6), Image.ANTIALIAS)
+            # fname_s_img = img_style.resize((width//6, height//6), Image.ANTIALIAS)
             fname_s_img.convert('RGB')
             fname_s_img.save(_style, 'png')
         fname_c_img = Image.open(_content).convert('RGB')
@@ -169,7 +169,7 @@ def run_bulk(config, progress_callback = None):
                 progress_callback(progress)
         else:
             for _transfer_at in get_all_transfer():
-                with Timer('Elapsed time in whole WCT: {}', config.verbose):
+                with Timer('Elapsed time in whole WCT: {}', config.verbose):    
                     postfix = '_'.join(sorted(list(_transfer_at)))
                     fname_output = _output.replace(ext, '_{}_{}.{}'.format(config.option_unpool, postfix, ext))
                     print('------ transfer:', fname_c)
@@ -225,7 +225,7 @@ parser.add_argument('--content_segment', type=str, default='./examples/content_s
 parser.add_argument('--style', type=str, default='./examples/style')
 parser.add_argument('--style_segment', type=str, default='./examples/style_segment')
 parser.add_argument('--output', type=str, default='./outputs')
-parser.add_argument('--image_size', type=int, default=512)
+parser.add_argument('--image_size', type=int, default=1024)
 parser.add_argument('--alpha', type=float, default=1)
 parser.add_argument('--option_unpool', type=str, default='cat5', choices=['sum', 'cat5'])
 parser.add_argument('-e', '--transfer_at_encoder', action='store_true')

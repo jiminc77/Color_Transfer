@@ -30,12 +30,21 @@ st.markdown(streamlit_style, unsafe_allow_html=True)
 
 def display_available_memory():
     mem_info = psutil.virtual_memory()
-    available_memory = mem_info.available / (1024 ** 2)  # Convert to MB
+    available_memory = mem_info.available / (1 << 20)  # Convert to MB
     st.write(f"Available memory: {available_memory:.2f} MB")
 
 def insta_crawling(ID, PW):
+    # jaeu8021
+    # kvoid2824#
+    
+    custom_user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36"
     cl = Client()
-    cl.login(ID, PW)
+    try:
+        cl.login('jaeu8021', 'kvoid2824#')
+    except Exception as e:
+        st.write("로그인 중 에러 발생:", e)
+
+    st.write("Sucesses")
 
     user_id = cl.user_id_from_username("jaeu8021")
     state_text.text("Feed searching...")
@@ -45,14 +54,17 @@ def insta_crawling(ID, PW):
     folder = "test-folder"
     createDirectory(folder)
     state_text.text("Saving Image....")
+    temp = []
     for m in medias:
         try:
             p = photo_download(cl, m.pk, folder)
+            temp.append(p)
         except AssertionError:
             pass
     
-    state_text.text("Crawling finished! " + os.path.abspath(p))
-    st.image(Image.open(os.path.abspath(p)))
+    crawled = temp[::]
+    # state_text.text("Crawling finished! " + os.path.abspath(p))
+    # st.image(Image.open(os.path.abspath(p)))
 
 
 def photo_download(c, pk, folder):
@@ -94,7 +106,7 @@ def concat_image(files, progress_callback):  # test folder 에서 이미지를 �
         return img, h
 
     images = []
-    msize = 1000
+    msize = 200
 
     for f in files:
         img = f
@@ -198,6 +210,14 @@ with st.container():
                                           type=['jpeg', 'png', 'jpg', 'heic'],
                                           label_visibility='visible',
                                           accept_multiple_files=True)
+        pass
+
+# insta_id = st.text_input("Put your Instagram ID here!")
+# insta_pwd = st.text_input('Put your Instagram password here!')
+# # Instagram crawling button
+# state_text = st.text("Ready to Crawl.")
+# if st.button("Crawling Instagram"):
+#     insta_crawling(insta_id, insta_pwd)
 
     
 if target_file:
@@ -213,9 +233,10 @@ if 'process_idx' not in st.session_state:
 
 # Check if the user has uploaded any files
 if uploaded_files or crawled:
-    # Create an empty list to store the images
+    # if uploaded_files or crawled:
 
-    images = []
+    images = crawled[::]
+    # Create an empty list to store the images
 
     # Loop through each uploaded file and append the opened image to the list
     for file in uploaded_files:
@@ -252,12 +273,6 @@ if uploaded_files or crawled:
 
     
 
-# insta_id = st.text_input("Put your Instagram ID here!")
-# insta_pwd = st.text_input('Put your Instagram password here!')
-# # Instagram crawling button
-# state_text = st.text("Ready to Crawl.")
-# if st.button("Crawling Instagram"):
-#     insta_crawling(insta_id, insta_pwd)
 
 #id = "leessunj"
 #pwd = "Ilsj08282!"
