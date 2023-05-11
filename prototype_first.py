@@ -37,7 +37,6 @@ def insta_crawling(ID, PW):
     # jaeu8021
     # kvoid2824#
     
-    custom_user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36"
     cl = Client()
     try:
         cl.login('jaeu8021', 'kvoid2824#')
