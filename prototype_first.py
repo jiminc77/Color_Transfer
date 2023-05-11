@@ -1,6 +1,6 @@
 import streamlit as st
 from PIL import Image
-from instagrapi import Client
+# from instagrapi import Client
 from pathlib import Path
 import requests
 import os
