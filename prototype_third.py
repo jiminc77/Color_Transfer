@@ -198,7 +198,7 @@ with st.container():
                                        accept_multiple_files=False)
         if target_file:
             target_image = Image.open(target_file)
-            
+
     with col2:
         uploaded_files = st.file_uploader(label="Choose image(s) for AI to analyze",
                                           type=['jpeg', 'png', 'jpg', 'heic'],
@@ -206,7 +206,7 @@ with st.container():
                                           accept_multiple_files=True)
         pass
 
-    
+     
 if target_file:
     target = Image.open(target_file)
     with col1:
