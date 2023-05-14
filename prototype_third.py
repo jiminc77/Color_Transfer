@@ -232,7 +232,9 @@ if uploaded_files or crawled:
     if st.session_state.process_idx == 1:
         if st.button("Process Images"):
             delete_all_files('examples/content')
+            delete_all_files('examples/style')
             delete_all_files('outputs')
+
 
             bar = st.progress(0)
             single = concat_image(images, update_progress_bar)
