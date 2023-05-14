@@ -38,7 +38,7 @@ openssl=1.1.1t=h7f8727e_0
 packaging=23.1=pypi_0
 pandas=2.0.1=pypi_0
 pillow=9.5.0=pypi_0
-pip=23.0.1=py39h06a4308_0
+pip=23.1.2=pypi_0
 protobuf=3.20.3=pypi_0
 pyarrow=12.0.0=pypi_0
 pycryptodomex=3.17=pypi_0
