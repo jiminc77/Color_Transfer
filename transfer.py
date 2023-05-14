@@ -208,6 +208,8 @@ def run(progress_callback = None):
     
     if not os.path.exists(os.path.join(config.output)):
         os.makedirs(os.path.join(config.output))
+    
+
 
     '''
     CUDA_VISIBLE_DEVICES=6 python transfer.py --content ./examples/content --style ./examples/style --content_segment ./examples/content_segment --style_segment ./examples/style_segment/ --output ./outputs/ --verbose --image_size 512 -a
@@ -215,7 +217,7 @@ def run(progress_callback = None):
     run_bulk(config, progress_callback)
 
     print(DeleteAllFiles('./examples/content'))
-    print(DeleteAllFiles('./examples/style'))
+    # print(DeleteAllFiles('./examples/style'))
     SelectOutputFile()
 
 
