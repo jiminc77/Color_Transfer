@@ -211,13 +211,6 @@ with st.container():
                                           accept_multiple_files=True)
         pass
 
-# insta_id = st.text_input("Put your Instagram ID here!")
-# insta_pwd = st.text_input('Put your Instagram password here!')
-# # Instagram crawling button
-# state_text = st.text("Ready to Crawl.")
-# if st.button("Crawling Instagram"):
-#     insta_crawling(insta_id, insta_pwd)
-
     
 if target_file:
     target = Image.open(target_file)
