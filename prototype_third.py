@@ -165,7 +165,6 @@ def update_progress_bar(progress):
         bar.progress(progress)
         time.sleep(1)
         bar.empty()
-        
 
 def delete_all_files(filepath):
     if os.path.exists(filepath):
