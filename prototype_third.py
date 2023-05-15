@@ -257,7 +257,7 @@ if st.session_state.button_clicked_3:
     col2.image(concat)
 
     with st.container():
-        folder_path = '/home/jovyan/Color_Transfer/outputs_list'
+        folder_path = './outputs_list'
         # make slider
         selected_image_number = st.slider('', 0, 9, 0)
         # import image
