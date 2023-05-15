@@ -55,6 +55,9 @@ def run(progress_callback = None):
     
     if not os.path.exists(os.path.join(config.output)):
         os.makedirs(os.path.join(config.output))
+
+    if not os.path.exists(os.path.join(config.output_list)):
+        os.makedirs(os.path.join(config.output_list))
     
     run_bulk(config, progress_callback)
                     
