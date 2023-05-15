@@ -7,8 +7,6 @@ import os
 import subprocess
 import shutil
 import time
-import sys
-sys.path.append('/home/jovyan/Color_Transfer/color-transfer')
 from color_transfer import run
 
 streamlit_style = """
@@ -150,10 +148,8 @@ def concat_image(files, progress_callback):  # test folder 에서 이미지를 �
     # st.image(concat_single_image)
 
     createDirectory('examples/style')
-    createDirectory('examples/style_segment')
     createDirectory('examples/content')
-    createDirectory('examples/content_segment')
-    shutil.copyfile('black_.png', 'examples/style_segment/black_.png')
+    createDirectory('outputs_list')
 
     concat_single_image.save('./examples/style/concat_image.jpg', 'JPEG')
 
@@ -214,51 +210,69 @@ if target_file:
 
 crawled = []
 
-if 'process_idx' not in st.session_state:
-    st.session_state.process_idx = 1
+if "button_clicked_1" not in st.session_state:
+    st.session_state.button_clicked_1 = True
 
-# Check if the user has uploaded any files
-if uploaded_files or crawled:
-    # if uploaded_files or crawled:
+if "button_clicked_2" not in st.session_state:
+    st.session_state.button_clicked_2 = False
 
-    images = crawled[::]
-    # Create an empty list to store the images
+if "button_clicked_3" not in st.session_state:
+    st.session_state.button_clicked_3 = False
 
-    # Loop through each uploaded file and append the opened image to the list
-    for file in uploaded_files:
-        image = Image.open(file)
-        images.append(image)
-    
-    if st.session_state.process_idx == 1:
-        if st.button("Process Images"):
-            delete_all_files('examples/content')
-            delete_all_files('examples/style')
-            delete_all_files('outputs')
+# Check if the user has uploaded any files 
 
+images = crawled[::]
+# Create an empty list to store the images
 
-            bar = st.progress(0)
-            single = concat_image(images, update_progress_bar)
-            target.save('./examples/content/target.jpg', 'JPEG')
-            concat = Image.open('./examples/style/concat_image.jpg')
-            col2.image(concat)
-            st.session_state.process_idx = 2
+# Loop through each uploaded file and append the opened image to the list
+for file in uploaded_files:
+    image = Image.open(file)
+    images.append(image)
 
-    if st.session_state.process_idx == 2:
-        if st.button("Start Transfer"):   
-            directory = './outputs'
-            run()
-            concat = Image.open('./examples/style/concat_image.jpg')
-            col2.image(concat)
-            with st.container():
-                st.image('./outputs/output.png', use_column_width=True)
-                st.session_state.process_idx = 3
+if st.session_state.button_clicked_1: 
+    if st.button("Process Images"):
+        delete_all_files('examples/content')
+        delete_all_files('examples/style')
+        delete_all_files('outputs')
+        delete_all_files('outputs_list')
 
+        bar = st.progress(0)
+        single = concat_image(images, update_progress_bar)
+        target.save('./examples/content/target.jpg', 'JPEG')
+        concat = Image.open('./examples/style/concat_image.jpg')
+        col2.image(concat)
+        st.session_state.button_clicked_2 = True         
 
-    if st.session_state.process_idx == 3:
-        with open('./outputs/output.png', 'rb') as file:
-            button = st.download_button(label = 'Download', data = file, file_name = "Color_Grading.jpg", mime = 'image/jpg')
+if st.session_state.button_clicked_2:
+    if st.button("Start Transfer"):
+        st.session_state.button_clicked_3 = True
+        directory = './outputs'
+        bar = st.progress(0)
+        run(update_progress_bar)
 
-    
+if st.session_state.button_clicked_3:
+    st.session_state.button_clicked_1 = False
+    st.session_state.button_clicked_2 = False
+    concat = Image.open('./examples/style/concat_image.jpg')
+    col2.image(concat)
+
+    with st.container():
+        folder_path = '/home/jovyan/Color_Transfer/outputs_list'
+        # make slider
+        selected_image_number = st.slider('', 0, 9, 0)
+        # import image
+        image_path = os.path.join(folder_path, f'{selected_image_number}.png')
+        image = Image.open(image_path)
+        # show image
+        st.image(image)
+
+        with open(image_path, "rb") as file:
+            btn = st.download_button(
+                label="Download",
+                data=file,
+                file_name=f"{selected_image_number}.jpg",
+                mime="image/png"
+            )
 
 
 #id = "leessunj"

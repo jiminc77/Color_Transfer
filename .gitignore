@@ -1,4 +1,6 @@
 test.py
 first_requirements.txt
 examples
-outputs/
+outputs
+outputs_list
+test_fold
