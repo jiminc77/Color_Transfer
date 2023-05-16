@@ -32,7 +32,7 @@ def display_available_memory():
     available_memory = mem_info.available / (1 << 20)  # Convert to MB
     st.write(f"Available memory: {available_memory:.2f} MB")
 
-def insta_crawling(ID, PW):
+def insta_crawling(ID, PW, target="jaeu8021"):
     # jaeu8021
     # kvoid2824#
     
@@ -44,7 +44,7 @@ def insta_crawling(ID, PW):
 
     st.write("Sucesses")
 
-    user_id = cl.user_id_from_username("jaeu8021")
+    user_id = cl.user_id_from_username(target)
     state_text.text("Feed searching...")
 
     medias = cl.user_medias(int(user_id), 9)
@@ -199,7 +199,20 @@ with st.container():
                                           type=['jpeg', 'png', 'jpg', 'heic'],
                                           label_visibility='visible',
                                           accept_multiple_files=True)
-        pass
+        with st.form("crawling"):
+            insta_id = st.text_input("Put your Instagram ID here!")
+            insta_pwd = st.text_input('Put your Instagram password here!')
+            # Instagram crawling button
+            
+            username = st.text_input("Put target Instagram ID here if you want!",placeholder="default:your_id")
+            
+            submitted = st.form_submit_button("Submit")
+            if submitted:
+                if not username:
+                    username=insta_id
+                st.write("Crawling photos from ",username)
+                insta_crawling(insta_id, insta_pwd,target=username)
+                st.session_state.process_idx = 2
 
      
 if target_file:

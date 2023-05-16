@@ -44,6 +44,8 @@ streamlit==1.22.0
 tenacity==8.2.2
 toml==0.10.2
 toolz==0.12.0
+torch==1.12.1
+torchvision==0.13.1
 tornado==6.3.2
 tqdm==4.65.0
 typing_extensions==4.5.0

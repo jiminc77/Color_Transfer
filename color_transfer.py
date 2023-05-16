@@ -18,7 +18,7 @@ def run_bulk(config, progress_callback = None):
     cm = ColorMatcher()
     for fname in filenames:
         img_src = load_img_file(fname)
-        img_res = cm.transfer(src=img_src, ref=img_ref, method='reinhard') # mvgd or reinhard
+        img_res = cm.transfer(src=img_src, ref=img_ref, method='reinhard') # hm-mvgd-hm or reinhard
         img_res = Normalizer(img_res).uint8_norm()
         print(os.path.join(os.path.dirname(fname)))
         save_img_file(img_res, os.path.join(config.output, 'output.png'))

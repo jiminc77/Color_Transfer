@@ -10,6 +10,20 @@ import time
 import sys
 from transfer import run
 
+from color_matcher import ColorMatcher
+from color_matcher.io_handler import load_img_file, save_img_file, FILE_EXTS
+from color_matcher.normalizer import Normalizer
+
+def color_matcher(src,ref):
+    img_src=load_img_file(src)
+    img_ref=load_img_file(ref)
+    cm = ColorMatcher()
+    img_res = cm.transfer(src=img_src, ref=img_ref, method='mkl')
+    img_res = Normalizer(img_res).uint8_norm()
+    save_img_file(img_res, os.path.join('outputs', 'colormatch'+'.png'))
+    return img_res
+
+
 streamlit_style = """
 			<style>
 			@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
@@ -36,7 +50,7 @@ def display_available_memory():
 def insta_crawling(ID, PW,target="jaeu8021"):
     cl = Client()
     cl.login(ID, PW)
-    print(">>>>>",target)
+    print(">>>>>",type(target),target)
     user_id = cl.user_id_from_username(target)
     st.text("Feed searching...")
 
@@ -209,7 +223,7 @@ with st.container():
             insta_pwd = st.text_input('Put your Instagram password here!')
             # Instagram crawling button
             
-            username = st.text_input("Put target Instagram ID here if you want!",placeholder="default:your_id",value=insta_id)
+            username = st.text_input("Put target Instagram ID here if you want!",placeholder="default:your_id")
             
             submitted = st.form_submit_button("Submit")
             if submitted:
@@ -276,6 +290,8 @@ st.write(st.session_state.process_idx)
 if st.session_state.process_idx == 3:
     if st.button("Start Transfer"):   
         directory = './outputs'
+        color_matcher('examples/content/target.jpg','examples/style/concat_image.jpg')
+        st.image('./outputs/colormatch.png')
         bar = st.progress(0)
         run(update_progress_bar)
         concat = Image.open('./examples/style/concat_image.jpg')
@@ -291,4 +307,3 @@ if st.session_state.process_idx == 4:
 
 
 # 서버가 종료되지 않았다면, netstat -lnp | grep [포트번호] 후, kill -9 [process_id]
-
