@@ -113,7 +113,7 @@ def get_all_transfer():
     return ret
 
 
-def run_bulk(config, progress_callback = None):
+def run_bulk(config, progress_callback = None,seed=0):
     i = 0
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print(device)
@@ -127,8 +127,8 @@ def run_bulk(config, progress_callback = None):
     if config.transfer_at_skip:
         transfer_at.add('skip')
 
-    fname_c = os.listdir(config.content)[0]
-    fname_s = os.listdir(config.style)[0]
+    fname_c = f'{seed}_target.jpg'
+    fname_s = f'{seed}_concat_image.jpg'
 
     if is_image_file(fname_c) and is_image_file(fname_s):
         _content = os.path.join(config.content, fname_c)
@@ -204,19 +204,17 @@ def SelectOutputFile():
         os.remove(file.path)
 
 
-def run(progress_callback = None):
+def run(progress_callback = None,seed=0):
     
     if not os.path.exists(os.path.join(config.output)):
         os.makedirs(os.path.join(config.output))
-    
-
 
     '''
     CUDA_VISIBLE_DEVICES=6 python transfer.py --content ./examples/content --style ./examples/style --content_segment ./examples/content_segment --style_segment ./examples/style_segment/ --output ./outputs/ --verbose --image_size 512 -a
     '''
-    run_bulk(config, progress_callback)
+    run_bulk(config, progress_callback,seed=seed)
 
-    print(DeleteAllFiles('./examples/content'))
+    # print(DeleteAllFiles('./examples/content'))
     # print(DeleteAllFiles('./examples/style'))
     SelectOutputFile()
 
