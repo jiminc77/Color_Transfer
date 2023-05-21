@@ -170,7 +170,7 @@ def concat_image(files, progress_callback):  # test folder 에서 이미지를 �
     shutil.copyfile('black_.png', 'examples/style_segment/black_.png')
     shutil.copyfile('black_.png', 'examples/content_segment/black_.png')
 
-    concat_single_image.save(f'./examples/style/{st.session_state.seed}_concat_image.jpg', 'JPEG')
+    concat_single_image.save(f'examples/style/{st.session_state.seed}_concat_image.jpg', 'JPEG')
     return "concat-saved"
 
 def update_progress_bar(progress):
@@ -312,7 +312,7 @@ with st.container():
     print(st.session_state.process_idx)
     if target_file:
         target = Image.open(target_file)
-        target.save(f'./examples/content/{st.session_state.seed}_target.jpg', 'JPEG')
+        target.save(f'examples/content/{st.session_state.seed}_target.jpg', 'JPEG')
         with ic1:
             # st.markdown('<div class="custom-style"></div>', unsafe_allow_html=True)
             st.markdown("**target image**")
@@ -320,11 +320,11 @@ with st.container():
     with ic2:
         ref_state=st.markdown("")
         if st.session_state.process_idx == 3:
-            if not os.path.exists(f'./examples/style/{st.session_state.seed}_concat_image.jpg'):
+            if not os.path.exists(f'examples/style/{st.session_state.seed}_concat_image.jpg'):
                 st.session_state.process_idx=1
                 ref_state.markdown("**Error**: try again getting reference images")
             else:   
-                ref=Image.open(f'./examples/style/{st.session_state.seed}_concat_image.jpg')
+                ref=Image.open(f'examples/style/{st.session_state.seed}_concat_image.jpg')
                 st.image(ref)
 
 
@@ -342,25 +342,25 @@ st.write(st.session_state.process_idx)
 
 if st.session_state.process_idx == 3 :#and target_file and st.session_state.images
     if st.button("Start Transfer", type="primary",disabled= not target_file or not st.session_state.images,help="shoud need target image and ref images"):   
-        directory = './outputs'
+        directory = 'outputs'
         # color_matcher(f'./examples/content/{st.session_state.seed}_target.jpg',f'./examples/style/{st.session_state.seed}_concat_image.jpg')
         # st.image(f'./outputs/{st.session_state.seed}_colormatch.png')
         bar = st.progress(0)
         run(update_progress_bar,seed=st.session_state.seed)
         with st.container():
-            st.image(f'./outputs/{st.session_state.seed}_target_cat5_decoder_encoder_skip..jpg', use_column_width=True)
+            st.image(f'outputs/{st.session_state.seed}_target_cat5_decoder_encoder_skip..jpg', use_column_width=True)
             st.session_state.process_idx = 4
     
 
 if st.session_state.process_idx == 4:
-    with open(f'./outputs/{st.session_state.seed}_target_cat5_decoder_encoder_skip..jpg', 'rb') as file:
+    with open(f'outputs/{st.session_state.seed}_target_cat5_decoder_encoder_skip..jpg', 'rb') as file:
         button = st.download_button(label = 'Download', data = file, file_name = "Color_Grading.jpg", mime = 'image/jpg')
 
 
 if st.button("finish"):
     st.session_state.process_idx = 1
     print(st.session_state.seed)
-    delete_files([f'./examples/style/{st.session_state.seed}_concat_image.jpg',f'./examples/content/{st.session_state.seed}_target.jpg',f'./outputs/{st.session_state.seed}_target_cat5_decoder_encoder_skip..jpg'])
+    delete_files([f'examples/style/{st.session_state.seed}_concat_image.jpg',f'examples/content/{st.session_state.seed}_target.jpg',f'outputs/{st.session_state.seed}_target_cat5_decoder_encoder_skip..jpg'])
     # delete_folder(f"{st.session_state.seed}_test-folder")
     st.experimental_rerun()
 
