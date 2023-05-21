@@ -72,14 +72,16 @@ def insta_crawling(ID, PW,target="jaeu8021"):
         return
     folder = f"{st.session_state.seed}_test-folder"
     createDirectory(folder)
-    crawl_state.text("Saving Image....")
+    
     temp = []
+    crawl_state.text(f"Saving Image....({len(temp)})")
     for m in medias:
         try:
             p = photo_download(cl, m.pk, folder)
             temp.append(p)
         except AssertionError:
             pass
+        crawl_state.text(f"Saving Image....({len(temp)})")
     crawl_state.text("Crawling finished! ") # + os.path.abspath(p))
     st.session_state.crawled=temp[::]
 
