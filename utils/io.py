@@ -38,7 +38,6 @@ def open_image(image_path, image_size=None):
     transform = transforms.Compose(_transforms)
     return transform(image).unsqueeze(0)
 
-
 def change_seg(seg):
     color_dict = {
         (0, 0, 255): 3,  # blue
