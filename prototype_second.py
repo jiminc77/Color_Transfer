@@ -313,6 +313,7 @@ with st.container():
     if target_file:
         target = Image.open(target_file).convert("RGB")
 
+        createDirectory('examples/content')
         target.save(f'examples/content/{st.session_state.seed}_target.jpeg', 'JPEG')
         
         # target.save(f"/examples/content/target.jpg", 'JPEG')
