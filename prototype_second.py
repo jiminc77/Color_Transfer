@@ -73,7 +73,6 @@ def insta_crawling(ID, PW,target="jaeu8021"):
 
     folder = f"{st.session_state.seed}_test-folder"
     createDirectory(folder)
-    st.write(os.listdir())
     
     temp = []
     crawl_state.text(f"Saving Image....({len(temp)})")
@@ -85,7 +84,7 @@ def insta_crawling(ID, PW,target="jaeu8021"):
             pass
         crawl_state.text(f"Saving Image....({len(temp)})")
     crawl_state.text("Crawling finished! ") # + os.path.abspath(p))
-    st.session_state.crawled=temp[::]
+    st.session_state.crawled = [*map(Image.open, temp)]
 
     delete_folder(folder)
 
