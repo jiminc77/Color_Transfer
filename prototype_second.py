@@ -312,7 +312,8 @@ with st.container():
     print(st.session_state.process_idx)
     if target_file:
         target = Image.open(target_file)
-        target.save(f'examples/content/{st.session_state.seed}_target.jpg', 'JPEG')
+        # here!
+        target.save(f'examples/content/target.jpg', 'JPEG')
         with ic1:
             # st.markdown('<div class="custom-style"></div>', unsafe_allow_html=True)
             st.markdown("**target image**")
