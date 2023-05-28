@@ -313,7 +313,9 @@ with st.container():
     if target_file:
         target = Image.open(target_file)
         # here!
-        st.text("hello")
+        st.text(os.listdir())
+        st.text(os.listdir('examples'))
+        st.text(os.listdir('examples/contents'))
         target.save(f'examples/content/target.jpg', 'JPEG')
         with ic1:
             # st.markdown('<div class="custom-style"></div>', unsafe_allow_html=True)
