@@ -274,8 +274,6 @@ with st.container():
             if not st.session_state.seed:
                 st.session_state.seed=time.time()
                 print(st.session_state.seed)
-
-                st.text(st.session_state.seed)
         
             if not is_square(target_image):
                 st.error("Please upload a square image.")
@@ -324,7 +322,7 @@ with st.container():
         target = Image.open(target_file).convert("RGB")
 
         createDirectory('examples/content')
-        target.save(f'examples/content/{st.session_state.seed}_target.jpeg', 'JPEG')
+        target.save(f'examples/content/{st.session_state.seed}_target.jpg', 'JPEG')
         
         # target.save(f"/examples/content/target.jpg", 'JPEG')
         with ic1:
@@ -363,7 +361,7 @@ if st.session_state.process_idx == 3 :#and target_file and st.session_state.imag
             run(update_progress_bar,seed=st.session_state.seed)
         except FileNotFoundError as e:
             st.write(e)
-            
+
         with st.container():
             st.image(f'outputs/{st.session_state.seed}_target_cat5_decoder_encoder_skip..jpg', use_column_width=True)
             st.session_state.process_idx = 4
