@@ -313,7 +313,6 @@ with st.container():
     if target_file:
         target = Image.open(target_file).convert("RGB")
 
-        st.write(os.listdir('/app/color_transfer/examples'))
         target.save(f'/app/color_transfer/examples/content/{st.session_state.seed}_target.jpeg', 'JPEG')
         
         # target.save(f"/examples/content/target.jpg", 'JPEG')
