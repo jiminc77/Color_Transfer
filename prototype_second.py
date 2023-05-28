@@ -70,6 +70,7 @@ def insta_crawling(ID, PW,target="jaeu8021"):
     if len(medias)<1:
         crawl_state.markdown(f"There're **No** photos: {target}")
         return
+    st.text(st.session_state.seed)
     folder = f"{st.session_state.seed}_test-folder"
     createDirectory(folder)
     
@@ -269,6 +270,8 @@ with st.container():
             if not st.session_state.seed:
                 st.session_state.seed=time.time()
                 print(st.session_state.seed)
+
+                st.text(st.session_state.seed)
         
             if not is_square(target_image):
                 st.error("Please upload a square image.")
