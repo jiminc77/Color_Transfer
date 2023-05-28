@@ -305,8 +305,8 @@ with st.container():
                     crawl_state=st.text("...")
                     try:
                         insta_crawling(insta_id, insta_pwd,target=username)
-                    except:
-                        st.write("Crawling Failed...")
+                    except Exception as e:
+                        st.write("Crawling Failed...", e)
                     concating(st.session_state.crawled)
 
         elif st.session_state.imethod==1:
