@@ -359,7 +359,11 @@ if st.session_state.process_idx == 3 :#and target_file and st.session_state.imag
         # color_matcher(f'./examples/content/{st.session_state.seed}_target.jpg',f'./examples/style/{st.session_state.seed}_concat_image.jpg')
         # st.image(f'./outputs/{st.session_state.seed}_colormatch.png')
         bar = st.progress(0)
-        run(update_progress_bar,seed=st.session_state.seed)
+        try:
+            run(update_progress_bar,seed=st.session_state.seed)
+        except FileNotFoundError as e:
+            st.write(e)
+            
         with st.container():
             st.image(f'outputs/{st.session_state.seed}_target_cat5_decoder_encoder_skip..jpg', use_column_width=True)
             st.session_state.process_idx = 4
