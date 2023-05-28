@@ -170,7 +170,7 @@ def concat_image(files, progress_callback):  # test folder 에서 이미지를 �
     shutil.copyfile('black_.png', 'examples/style_segment/black_.png')
     shutil.copyfile('black_.png', 'examples/content_segment/black_.png')
 
-    concat_single_image.save(f'./examples/style/{st.session_state.seed}_concat_image.jpg', 'JPEG')
+    concat_single_image.save(f'examples/style/{st.session_state.seed}_concat_image.jpg', 'JPEG')
     return "concat-saved"
 
 def update_progress_bar(progress):
@@ -311,13 +311,11 @@ with st.container():
     ic1, ic2 = st.columns(2)
     print(st.session_state.process_idx)
     if target_file:
-        target = Image.open(target_file)
+        target = Image.open(target_file).convert("RGB")
 
         st.write(os.listdir('/app/color_transfer/examples'))
-        try:
-            target.save(f'/app/color_transfer/examples/content/{st.session_state.seed}_target.jpeg', 'JPEG')
-        except OSError as e:
-            st.write(e)
+        target.save(f'/app/color_transfer/examples/content/{st.session_state.seed}_target.jpeg', 'JPEG')
+        
         # target.save(f"/examples/content/target.jpg", 'JPEG')
         with ic1:
             # st.markdown('<div class="custom-style"></div>', unsafe_allow_html=True)
@@ -367,6 +365,8 @@ if st.button("finish"):
     st.session_state.process_idx = 1
     print(st.session_state.seed)
     delete_files([f'examples/style/{st.session_state.seed}_concat_image.jpg',f'examples/content/{st.session_state.seed}_target.jpg',f'outputs/{st.session_state.seed}_target_cat5_decoder_encoder_skip..jpg'])
+    # for path in ['examples/style', 'examples/content', 'outputs']:
+    #     delete_all_files(path)
     # delete_folder(f"{st.session_state.seed}_test-folder")
     st.experimental_rerun()
 
