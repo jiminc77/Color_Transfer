@@ -315,8 +315,10 @@ with st.container():
         # here!
         st.text(os.listdir())
         st.text(os.listdir('examples'))
+        createDirectory('examples/contents')
         st.text(os.listdir('examples/contents'))
-        target.save(f'examples/content/target.jpg', 'JPEG')
+        target.save(f'examples/content/{st.session_state.seed}_target.jpg', 'JPEG')
+        # target.save(f'examples/content/target.jpg', 'JPEG')
         with ic1:
             # st.markdown('<div class="custom-style"></div>', unsafe_allow_html=True)
             st.markdown("**target image**")
