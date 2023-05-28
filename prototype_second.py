@@ -228,8 +228,10 @@ def get_images(li):
 def concating(images):
     print("concat-processing!!!")
     # bar = st.progress(0)
-    st.image(images[0])
+
     single = concat_image(images, update_progress_bar)
+
+    st.session_state.images = images
     st.session_state.process_idx = 3
 
 def toggle_imethod():
