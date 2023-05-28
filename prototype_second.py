@@ -316,7 +316,7 @@ with st.container():
         st.write(os.listdir('/app/color_transfer/examples'))
         try:
             target.save(f'/app/color_transfer/examples/content/{st.session_state.seed}_target.jpeg', 'JPEG')
-        except Error as e:
+        except OSError as e:
             st.write(e)
         # target.save(f"/examples/content/target.jpg", 'JPEG')
         with ic1:
