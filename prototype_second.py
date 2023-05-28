@@ -60,8 +60,8 @@ def display_available_memory():
 
 def insta_crawling(ID, PW,target="jaeu8021"):
     cl = Client()
+    crawl_state.text("Try to access instagram...")
     cl.login(ID, PW)
-    crawl_state.text("Log in...")
     user_id = cl.user_id_from_username(target)
     crawl_state.text("Feed searching...")
 
@@ -303,7 +303,10 @@ with st.container():
                         username=insta_id
                     st.write("Crawling photos from ",username)
                     crawl_state=st.text("...")
-                    insta_crawling(insta_id, insta_pwd,target=username)
+                    try:
+                        insta_crawling(insta_id, insta_pwd,target=username)
+                    except:
+                        st.write("Crawling Failed...")
                     concating(st.session_state.crawled)
 
         elif st.session_state.imethod==1:
