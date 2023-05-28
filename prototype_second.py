@@ -170,7 +170,7 @@ def concat_image(files, progress_callback):  # test folder 에서 이미지를 �
     shutil.copyfile('black_.png', 'examples/style_segment/black_.png')
     shutil.copyfile('black_.png', 'examples/content_segment/black_.png')
 
-    concat_single_image.save(f'examples/style/{st.session_state.seed}_concat_image.jpg', 'JPEG')
+    concat_single_image.save(f'./examples/style/{st.session_state.seed}_concat_image.jpg', 'JPEG')
     return "concat-saved"
 
 def update_progress_bar(progress):
@@ -312,13 +312,10 @@ with st.container():
     print(st.session_state.process_idx)
     if target_file:
         target = Image.open(target_file)
+        st.image(target)
         # here!
-        st.text(os.listdir())
-        st.text(os.listdir('examples'))
-        createDirectory('examples/content')
-        st.text(os.listdir('examples/content'))
-        # target.save(f'examples/content/{st.session_state.seed}_target.jpg', 'JPEG')
-        target.save(f'examples/content/target.jpg', 'JPEG')
+        target.save(f'./examples/content/{st.session_state.seed}_target.jpg', 'JPEG')
+        # target.save(f"/examples/content/target.jpg", 'JPEG')
         with ic1:
             # st.markdown('<div class="custom-style"></div>', unsafe_allow_html=True)
             st.markdown("**target image**")
