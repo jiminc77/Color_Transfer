@@ -315,8 +315,8 @@ with st.container():
         # here!
         st.text(os.listdir())
         st.text(os.listdir('examples'))
-        createDirectory('examples/contents')
-        st.text(os.listdir('examples/contents'))
+        createDirectory('examples/content')
+        st.text(os.listdir('examples/content'))
         target.save(f'examples/content/{st.session_state.seed}_target.jpg', 'JPEG')
         # target.save(f'examples/content/target.jpg', 'JPEG')
         with ic1:
