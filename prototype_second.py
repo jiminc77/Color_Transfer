@@ -314,7 +314,7 @@ with st.container():
         target = Image.open(target_file)
         st.image(target)
         # here!
-        target.save(f'/examples/content/{st.session_state.seed}_target.jpg', 'JPEG')
+        target.save(f'examples/content/{st.session_state.seed}_target.jpg', 'JPEG')
         # target.save(f"/examples/content/target.jpg", 'JPEG')
         with ic1:
             # st.markdown('<div class="custom-style"></div>', unsafe_allow_html=True)
