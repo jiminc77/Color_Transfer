@@ -70,9 +70,10 @@ def insta_crawling(ID, PW,target="jaeu8021"):
     if len(medias)<1:
         crawl_state.markdown(f"There're **No** photos: {target}")
         return
-    st.text(st.session_state.seed)
+
     folder = f"{st.session_state.seed}_test-folder"
     createDirectory(folder)
+    st.write(os.listdir())
     
     temp = []
     crawl_state.text(f"Saving Image....({len(temp)})")
@@ -85,6 +86,8 @@ def insta_crawling(ID, PW,target="jaeu8021"):
         crawl_state.text(f"Saving Image....({len(temp)})")
     crawl_state.text("Crawling finished! ") # + os.path.abspath(p))
     st.session_state.crawled=temp[::]
+
+    delete_folder(folder)
 
 def photo_download(c, pk, folder):
     media = c.media_info(pk)
@@ -223,8 +226,7 @@ def get_images(li):
         imgs.append(image)
     return imgs
 
-def concating():
-    images=st.session_state.images
+def concating(images):
     print("concat-processing!!!")
     # bar = st.progress(0)
     single = concat_image(images, update_progress_bar)
@@ -287,10 +289,13 @@ with st.container():
         if st.session_state.imethod==0: #crawling
             st.text("Get images for AI to anaylze by Instagram login")
             with st.form("crawling"):
-                insta_id = st.text_input("Put your Instagram ID here!")
-                insta_pwd = st.text_input('Put your Instagram password here!',type='password')
+                # insta_id = st.text_input("Put your Instagram ID here!")
+                # insta_pwd = st.text_input('Put your Instagram password here!',type='password')
+                insta_id = "test1_team8"
+                insta_pwd = "test1!!"
             
-                username = st.text_input("Put target Instagram ID here if you want!",placeholder="default:your_id")
+                # username = st.text_input("Put target Instagram ID here if you want!",placeholder="default:your_id")
+                username = st.text_input("Put target Instagram ID here if you want!")
                 
                 submitted = st.form_submit_button("Submit")
                 if submitted:
@@ -299,7 +304,7 @@ with st.container():
                     st.write("Crawling photos from ",username)
                     crawl_state=st.text("...")
                     insta_crawling(insta_id, insta_pwd,target=username)
-                    concating()
+                    concating(st.session_state.crawled)
 
         elif st.session_state.imethod==1:
             st.session_state.uploaded = st.file_uploader(label="Choose image(s) for AI to analyze",
@@ -307,7 +312,7 @@ with st.container():
                                           label_visibility='visible',
                                           accept_multiple_files=True)
             if st.button("Process Images", type="primary"):
-                concating()
+                concating(st.session_state.uploaded)
         
 
 with st.container():
@@ -335,15 +340,14 @@ with st.container():
                 st.image(ref)
 
 
-if st.session_state.crawled:
-    st.session_state.images=get_images(st.session_state.crawled)
-    ref_state.markdown("**reference images from CRAWLING**")
-if st.session_state.uploaded:
-    st.session_state.images=get_images(st.session_state.uploaded)
-    ref_state.markdown("**reference images from uploading**")
+if st.session_state.images:
+    if st.session_state.crawled:
+        ref_state.markdown("**reference images from CRAWLING**")
+    if st.session_state.uploaded:
+        ref_state.markdown("**reference images from uploading**")
+
     if st.session_state.process_idx<2:
-        st.session_state.process_idx = 2
-    
+        st.session_state.process_idx = 2    
         
 st.write(st.session_state.process_idx)
 
