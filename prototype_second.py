@@ -217,7 +217,7 @@ def memory_usage(message):
 
 def is_square(image):
     width, height = image.size
-    return width == height
+    return abs(width - height) / width < 0.01  # allow 5 pixel difference about 500 pixel images
 
 def get_images(li):
     imgs=[]
@@ -229,6 +229,7 @@ def get_images(li):
 def concating(images):
     print("concat-processing!!!")
     # bar = st.progress(0)
+    st.image(images[0])
     single = concat_image(images, update_progress_bar)
     st.session_state.process_idx = 3
 
